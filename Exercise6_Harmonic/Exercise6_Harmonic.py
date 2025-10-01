@@ -79,6 +79,9 @@ def analysis(N_cf_list):
         G = MCaverage(x, G, N_config)
         avgE, sdevE = bootstrap(G, nbstrap=100)
 
+        np.savez("d_E6_noghost.npz", avgE=avgE, sdevE=sdevE)
+
+
         t_vals = [a * q for q in range(len(avgE))]
 
         plt.figure(figsize=(8, 5), dpi=120)
@@ -86,7 +89,7 @@ def analysis(N_cf_list):
                      capsize=4, markersize=4, label='Calculated ΔE')
         plt.scatter(t_vals, avgE, color='black', s=8)
 
-        plt.axhline(y=1.0, color='black', linestyle='--', linewidth=1.0, label='ΔE = 1 (esatto)')
+        plt.axhline(y=1, color='black', linestyle='--', linewidth=1.0, label='ΔE = 1 (exact result)')
 
         plt.title(f'NO-Ghost Action (with harmonic potential): N={N}, a={a}, N_config={N_config}')        
         plt.xlabel('t')
@@ -100,7 +103,7 @@ def analysis(N_cf_list):
         filename =f"E6_Harmonic_Ghost_Nconfig{N_config}.png"
         plt.savefig(filename)
         plt.close()
-        print(f"Plot salvato come '{filename}'\n")
+        print(f"Plot saved as '{filename}'\n")
 
 if __name__ == "__main__":
     analysis(N_cf_list)

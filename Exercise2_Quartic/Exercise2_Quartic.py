@@ -78,7 +78,7 @@ def analysis(N_cf_list):
         t_vals = [a * q for q in range(len(avgE))]
 
         plt.figure(figsize=(8, 5), dpi=120)
-        #plt.axhline(y=1.0, color='black', linestyle='--', linewidth=1.0, label='Riferimento (1.0)')
+        #plt.axhline(y=1.0, color='black', linestyle='--', linewidth=1.0, label='(1.0)')
         plt.errorbar(t_vals, avgE, yerr=sdevE, fmt='o', ecolor="blue", elinewidth=0.8,
                      capsize=4, markersize=4, label='Calculated ΔE')
         plt.scatter(t_vals, avgE, color='black', s=8)
@@ -95,7 +95,7 @@ def analysis(N_cf_list):
         filename = f"E2_Quartic_Nconfig{N_config}.png"
         plt.savefig(filename)
         plt.close()
-        print(f"Plot salvato come '{filename}'\n")
+        print(f"Plot saved as '{filename}'\n")
 
 if __name__ == "__main__":
     analysis(N_cf_list)

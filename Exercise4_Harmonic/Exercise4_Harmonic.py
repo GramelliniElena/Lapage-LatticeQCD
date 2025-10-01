@@ -88,6 +88,9 @@ def analysis(N_cf_list):
 
         avgE, sdevE = bootstrap(G_binned, nbstrap=100)
 
+        np.savez("d_E4_standard.npz", avgE=avgE, sdevE=sdevE) #for analysis
+
+
         t_vals = [a * q for q in range(len(avgE))]
 
         plt.figure(figsize=(8, 5), dpi=120)
@@ -108,7 +111,7 @@ def analysis(N_cf_list):
         filename = f"E4_Harmonic_Nconfig{N_config}.png"
         plt.savefig(filename)
         plt.close()
-        print(f"Plot salvato come '{filename}'\n")
+        print(f"Plot saved as '{filename}'\n")
 
 if __name__ == "__main__":
     analysis(N_cf_list)

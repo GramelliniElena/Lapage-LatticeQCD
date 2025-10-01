@@ -109,7 +109,7 @@ def analysis(N_cf_list):
         filename = f"E4_Quartic_Nconfig{N_config}.png"
         plt.savefig(filename)
         plt.close()
-        print(f"Plot salvato come '{filename}'\n")
+        print(f"Plot saved as '{filename}'\n")
 
 if __name__ == "__main__":
     analysis(N_cf_list)

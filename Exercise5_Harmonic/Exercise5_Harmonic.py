@@ -87,6 +87,9 @@ def analysis(N_cf_list):
         G = MCaverage(x, G, N_config)
         avgE, sdevE = bootstrap(G, nbstrap=100)
 
+        np.savez("d_E5_improved.npz", avgE=avgE, sdevE=sdevE) #for analysis
+
+
         t_vals = [a * q for q in range(len(avgE))]
 
         plt.figure(figsize=(8, 5), dpi=120)
@@ -94,7 +97,7 @@ def analysis(N_cf_list):
                      capsize=4, markersize=4, label='Calculated ΔE')
         plt.scatter(t_vals, avgE, color='black', s=8)
 
-        plt.axhline(y=1.0, color='black', linestyle='--', linewidth=1.0, label='ΔE = 1 (esatto)')
+        plt.axhline(y=1.0, color='black', linestyle='--', linewidth=1.0, label='ΔE = 1 (exact result)')
 
         plt.title(f'{"Improved" if use_improved_action else "Standard"} Action: N={N}, a={a}, N_config={N_config}')
         plt.xlabel('t')
@@ -108,7 +111,7 @@ def analysis(N_cf_list):
         filename = f"E5_Harmonic_{'Improved' if use_improved_action else 'Standard'}_Nconfig{N_config}.png"
         plt.savefig(filename)
         plt.close()
-        print(f"Plot salvato come '{filename}'\n")
+        print(f"Plot saved as '{filename}'\n")
 
 if __name__ == "__main__":
     analysis(N_cf_list)

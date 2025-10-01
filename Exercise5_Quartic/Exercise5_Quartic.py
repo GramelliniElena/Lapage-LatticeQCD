@@ -108,7 +108,7 @@ def analysis(N_cf_list):
         filename = f"E5_Quartic_{'Improved' if use_improved_action else 'Standard'}_Nconfig{N_config}.png"
         plt.savefig(filename)
         plt.close()
-        print(f"Plot salvato come '{filename}'\n")
+        print(f"Plot saved as '{filename}'\n")
 
 if __name__ == "__main__":
     analysis(N_cf_list)

@@ -1,3 +1,4 @@
+#Come è stato trovato il tratteggio 1.933?
 import numpy as np
 from numba import njit
 import matplotlib.pyplot as plt
@@ -87,12 +88,12 @@ def analysis(N_cf_list):
                      capsize=4, markersize=4, label='Calculated ΔE')
         plt.scatter(t_vals, avgE, color='black', s=8)
 
-        plt.axhline(y = 1.933, color='black', linestyle='--', linewidth=1.0, label='(esatto)')
+        plt.axhline(y = 1.933, color='black', linestyle='--')
 
         plt.title(f'NO-Ghost Action (with anharmonic potential): N={N}, a={a}, N_config={N_config}')        
         plt.xlabel('t')
         plt.ylabel(r'$\Delta E(t)$')
-        plt.xlim(0, min(9.5, N * a))
+        plt.xlim(0, 1.4)
         plt.ylim(-3, 3)
         plt.grid(True)
         plt.legend()
@@ -101,6 +102,6 @@ def analysis(N_cf_list):
         filename =f"E6_Anharmonic_Ghost_Nconfig{N_config}.png"
         plt.savefig(filename)
         plt.close()
-        print(f"Plot salvato come '{filename}'\n")
+        print(f"Plot saved as '{filename}'\n")
 if __name__ == "__main__":
     analysis(N_cf_list)

@@ -28,32 +28,47 @@ def integrand(x_path, x0, potential_choice):
     prefactor = (m / (2 * np.pi * a)) ** (N / 2)
     return prefactor * np.exp(- action(np.array(x_path), x0, potential_choice))
 
-#Numerical integration of the propagator
+#Numerical integration of the propagator with fixed endpoints (N-1 variables)
 def evaluate_propagator(x0, potential_choice):
-    integrator = vegas.Integrator([[-5, 5]] * (N - 1)) #interval for the (N - 1) integrations
+    integrator = vegas.Integrator([[-5, 5]] * (N - 1))  #interval for the integrations
     def f(x_path):
         return integrand(x_path, x0, potential_choice)
     result = integrator(f, nitn=10, neval=100000) 
     return result.mean
 
+#Integrand for the trace (no fixed endpoints)
+def integrand_trace(x_path, V, m, a, N):
+    x_path = np.array(x_path)  # <-- convert to numpy array
+    kinetic = (m / (2 * a)) * np.sum((x_path[1:] - x_path[:-1])**2)
+    kinetic += (m / (2 * a)) * (x_path[0] - x_path[-1])**2
+    potential = a * np.sum(V(x_path))
+    prefactor = (m / (2 * np.pi * a)) ** (N / 2)
+    return prefactor * np.exp(- (kinetic + potential))
+
+def evaluate_trace(potential_choice):
+    integrator = vegas.Integrator([[-5, 5]] * N)  
+    def f(x_path):
+        return integrand_trace(x_path, potential_choice, m, a, N)
+    result = integrator(f, nitn=10, neval=100000)
+    return result.mean
+
+#Estimate E0 from the trace integral
 def E0_estimate(potential_choice):
-    P0 = evaluate_propagator(0.0, potential_choice)
-    E0 = - 1.0 * np.log(P0) / T
+    Z = evaluate_trace(potential_choice)
+    E0 = -np.log(Z) / T
     return E0
 
 def run_analysis(potential_choice, potential_name="Potential", show_analytical=True):
-    x0_values = np.linspace(0, 2, 15) #generates 15 equidistant values between 0 and 2, endpoints are counted
+    x0_values = np.linspace(0, 2, 15)  #generates 15 equidistant values between 0 and 2
 
-    #Estimate ground-state energy from x0 = 0
+    #Estimate ground-state energy from trace integral in N dimensions
     E0_numerical = E0_estimate(potential_choice)
 
-    #Evaluate propagators
+    #Evaluate propagators with fixed endpoints
     propagators = [evaluate_propagator(x, potential_choice) for x in x0_values]
-    
     
     #Analytical expressions (only for harmonic case)
     if show_analytical:
-        #psi_squared_analytical = [psi0(x)**2 for x in x0_values]
         propagator_analytical = [psi0(x)**2 * np.exp(-E0_analytical * T) for x in x0_values]
 
     plt.figure(figsize=(8, 4))
@@ -71,5 +86,5 @@ def run_analysis(potential_choice, potential_name="Potential", show_analytical=T
 
     print(f"Estimated ground state energy E0 (numerical) for {potential_name} = {E0_numerical:.5f}")
 
-run_analysis(harmonic_potential, "Harmonic", show_analytical = True)
-run_analysis(quartic_potential, "Quartic", show_analytical = False)
+run_analysis(harmonic_potential, "Harmonic", show_analytical=True)
+run_analysis(quartic_potential, "Quartic", show_analytical=False)

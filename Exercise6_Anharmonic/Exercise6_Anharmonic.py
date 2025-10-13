@@ -1,4 +1,3 @@
-#Come è stato trovato il tratteggio 1.933?
 import numpy as np
 from numba import njit
 import matplotlib.pyplot as plt

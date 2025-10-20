@@ -1,5 +1,5 @@
 # Lapage-LatticeQCD
-These are my solutions to some of the exercises proposed by Lepage (https://arxiv.org/abs/hep-lat/0506036). The numbering matches the order in the article, except for Analysis.py which was not one of the suggested exercises.
+These are my solutions to some of the exercises proposed by G. Peter Lepage (https://arxiv.org/abs/hep-lat/0506036). The numbering matches the order in the article, except for Analysis.py which was not one of the suggested exercises.
 
 # Code description
 **Exercise1**: Solving path integral, both for harmonic and quartic potentials, using Vegas routine to integrate over closed paths; the calculation is performed considering different boundaries. The estimation of the ground state energy for the harmonic case is performed by Vegas integrating over all boundaries, as described in TNAN_LatticeQCD.pdf. My numerical results are compared with the exact ones.
